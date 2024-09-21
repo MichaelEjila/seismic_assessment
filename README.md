@@ -40,7 +40,7 @@ This project contains two separate Django services (Frontend and Backend APIs) t
 To enable the **Frontend API** to listen for RabbitMQ messages, run the following command in a separate terminal within the `frontend` service container:
 
     ```bash
-    docker-compose exec frontend python manage.py consume_rabbitmq
+    python manage.py rabbitmq_consumer
     ```
 
 ## Stopping the Services
