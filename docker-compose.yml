@@ -1,0 +1,45 @@
+services:
+  # Backend API service
+  backend:
+    build: ./library_admin  # Adjusted path for backend
+    container_name: backend-api
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./library_admin:/app
+      - ./library_admin/db.sqlite3:/app/db.sqlite3  # Mount the SQLite database file
+    ports:
+      - "8001:8000"
+    env_file:
+      - .env
+    depends_on:
+      - rabbitmq
+
+  # Frontend API service
+  frontend:
+    build: ./library_frontend  # Adjusted path for frontend
+    container_name: frontend-api
+    command: python manage.py runserver 0.0.0.0:9000
+    volumes:
+      - ./library_frontend:/app
+      - ./library_frontend/db.sqlite3:/app/db.sqlite3  # Mount the SQLite database file
+    ports:
+      - "8002:9000"
+    env_file:
+      - .env
+    depends_on:
+      - rabbitmq
+
+  # RabbitMQ service for message queueing
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"  # Default RabbitMQ port
+      - "15672:15672"  # RabbitMQ management UI
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+
+volumes:
+  backend-db-data:
+  frontend-db-data:
