@@ -1,4 +1,4 @@
-# seismic_assessment
+# API Communication
 
 This project contains two separate Django services (Frontend and Backend APIs) that communicate using RabbitMQ.
 
